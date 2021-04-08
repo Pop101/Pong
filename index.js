@@ -2,8 +2,11 @@ const fps = 1/60*1000;
 const paddleSize = 0.3
 const paddleSpeed = 0.01 * $(window).height();
 
+const ballVariance = 0.26;
 const ballXSpeed = 0.005 * $(window).width();
 const ballYSpeed = 0.005 * $(window).height();
+const ballIncrease = 0.5
+
 const r = $('#right');
 const l = $('#left');
 const b = $('#ball');
@@ -60,14 +63,30 @@ function announce(s) {
 // Ball Moving
 var ballXVel = ballXSpeed;
 var ballYVel = ballYSpeed;
+function bounce() {
+	let amount = ballVariance*(Math.random()-0.5)
+	let angle = Math.atan2(ballYVel, ballXVel)
+	let power = Math.sqrt(ballXVel*ballXVel+ballYVel*ballYVel)
+
+	angle += amount
+	power += ballIncrease
+	ballXVel = power * Math.cos(angle)
+	ballYVel = power * Math.sin(angle)
+}
 function ball() {
 	var delay = fps;
 	
 	// Bounce the ball
 	if(hitFloor(b)) ballYVel = Math.abs(ballYVel)
 	if(hitCeiling(b)) ballYVel = -Math.abs(ballYVel)
-	if(collide(b, l)) ballXVel = Math.abs(ballXVel)
-	if(collide(b, r)) ballXVel = -Math.abs(ballXVel)
+	if(collide(b, l)) {
+		bounce()
+		ballXVel = Math.abs(ballXVel)
+	}
+	if(collide(b, r)) {
+		bounce()
+		ballXVel = -Math.abs(ballXVel)
+	}
 	
 	// Score the goals
 	if(hitRightWall(b)){
@@ -76,6 +95,7 @@ function ball() {
 		announce('Goal')
 		ballXVel = -ballXSpeed
 		ballYVel = ballYSpeed
+		bounce()
 		delay = 600
 	}
 	if(hitLeftWall(b)){
@@ -84,16 +104,13 @@ function ball() {
 		announce('Goal')
 		ballXVel = ballXSpeed
 		ballYVel = ballYSpeed
+		bounce()
 		delay = 600
 	}
 	
 	// Move the ball
 	let pos = b.offset()
 	b.css({left:pos.left+ballXVel,top:pos.top+ballYVel});
-	
-	// Slightly speed it up every tick
-	ballXVel *= 1.00007
-	ballYVel *= 1.00015
 	
 	// Repeat
 	setTimeout(function() {

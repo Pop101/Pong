@@ -111,13 +111,13 @@ var lIsCpu = false;
 l.get(0).addEventListener('touchmove', function(event) {
 	if (event.targetTouches.length == 1) {
 		var touch = event.targetTouches[0];
-		l.css({top:touch.pageY});
+		l.css({top:touch.pageY-0.5*l.height()});
 	}
 }, false);
 r.get(0).addEventListener('touchmove', function(event) {
 	if (event.targetTouches.length == 1) {
 		var touch = event.targetTouches[0];
-		r.css({top:touch.pageY});
+		r.css({top:touch.pageY-0.5*r.height()});
 	}
 }, false);
 

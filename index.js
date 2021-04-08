@@ -19,9 +19,7 @@ l.css({height:paddleSize*$(window).height()})
 r.css({top:(0.5-0.5*paddleSize)*$(window).height()})
 l.css({top:(0.5-0.5*paddleSize)*$(window).height()})
 
-// Credit to https://codepen.io/JafarAKhondali/pen/ZpzRXGsdf
-console.log(r.get(0).getBoundingClientRect())
-console.log($(window).width())
+// Define collision detection
 function collide(e1, e2){
 	let b1 = e1.get(0).getBoundingClientRect()
 	let b2 = e2.get(0).getBoundingClientRect()

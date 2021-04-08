@@ -1,3 +1,4 @@
+const fps = 1/60*1000;
 const paddleSize = 0.3
 const paddleSpeed = 0.01 * $(window).height();
 
@@ -18,7 +19,7 @@ l.css({height:paddleSize*$(window).height()})
 r.css({top:(0.5-0.5*paddleSize)*$(window).height()})
 l.css({top:(0.5-0.5*paddleSize)*$(window).height()})
 
-//https://codepen.io/JafarAKhondali/pen/ZpzRXGsdf
+// Credit to https://codepen.io/JafarAKhondali/pen/ZpzRXGsdf
 console.log(r.get(0).getBoundingClientRect())
 console.log($(window).width())
 function collide(e1, e2){
@@ -62,7 +63,7 @@ function announce(s) {
 var ballXVel = ballXSpeed;
 var ballYVel = ballYSpeed;
 function ball() {
-	var delay = 1;
+	var delay = fps;
 	
 	// Bounce the ball
 	if(hitFloor(b)) ballYVel = Math.abs(ballYVel)
@@ -178,7 +179,7 @@ function movePaddles() {
 	
 	setTimeout(function() {
 		movePaddles()
-	}, 1);
+	}, fps);
 }
 
 // Start the game by putting the ball in the middle
